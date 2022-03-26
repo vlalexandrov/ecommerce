@@ -4,7 +4,7 @@
   "license": "UNLICENSED",
   "author": "Volodymyr Bida",
   "scripts": {
-    "lint": "eslint '**/*.{ts,tsx}' '**/*.d.{ts,tsx}' --max-warnings=0",
+    "lint": "eslint '**/*.{ts,tsx}' '**/*.d.{ts,tsx}' --max-warnings=0 --no-error-on-unmatched-pattern",
     "lint:fix": "eslint --fix '**/*.{ts,tsx}' --max-warnings=0",
     "stylelint": "stylelint --ignore-pattern '**/node_modules/**/*' 'packages/app/**/*.{ts,tsx}'",
     "stylelint:fix": "stylelint --fix --ignore-pattern '**/node_modules/**/*'",
@@ -52,5 +52,8 @@
   },
   "engines": {
     "yarn": "1.x"
+  },
+  "dependencies": {
+    "express": "^4.17.3"
   }
 }
