@@ -1,0 +1,56 @@
+{
+  "name": "node-ecommerce",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "author": "Volodymyr Bida",
+  "scripts": {
+    "lint": "eslint '**/*.{ts,tsx}' '**/*.d.{ts,tsx}' --max-warnings=0",
+    "lint:fix": "eslint --fix '**/*.{ts,tsx}' --max-warnings=0",
+    "stylelint": "stylelint --ignore-pattern '**/node_modules/**/*' 'packages/app/**/*.{ts,tsx}'",
+    "stylelint:fix": "stylelint --fix --ignore-pattern '**/node_modules/**/*'",
+    "type-check": "tsc --noEmit"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "packages/app/**/*.{ts,tsx}": [
+      "yarn stylelint"
+    ],
+    "*.{ts,tsx}": [
+      "yarn lint"
+    ]
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.13.14",
+    "@babel/core": "^7.13.15",
+    "@babel/preset-env": "^7.13.15",
+    "@babel/preset-react": "^7.13.13",
+    "@emotion/babel-preset-css-prop": "^11.2.0",
+    "@emotion/eslint-plugin": "^11.2.0",
+    "@typescript-eslint/eslint-plugin": "^4.22.0",
+    "@typescript-eslint/parser": "^4.22.0",
+    "babel-core": "^6.26.3",
+    "babel-loader": "^8.2.2",
+    "eslint": "^7.24.0",
+    "eslint-config-prettier": "^8.2.0",
+    "eslint-import-resolver-typescript": "^2.4.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-prettier": "^3.4.0",
+    "eslint-plugin-react": "^7.23.2",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^4.2.3",
+    "lint-staged": "^10.5.4",
+    "prettier": "^2.2.1",
+    "stylelint": "^13.12.0",
+    "stylelint-config-recommended": "^4.0.0",
+    "stylelint-config-styled-components": "^0.1.1",
+    "stylelint-processor-styled-components": "^1.10.0",
+    "typescript": "^4.2.4"
+  },
+  "engines": {
+    "yarn": "1.x"
+  }
+}
