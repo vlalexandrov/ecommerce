@@ -1,4 +1,6 @@
 {
+  "experimentalDecorators": true,
+  "emitDecoratorMetadata": true,
   "compilerOptions": {
     "esModuleInterop": true,
     "outDir": "dist",
