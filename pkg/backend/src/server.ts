@@ -1,6 +1,7 @@
 import express from 'express';
 import bodyParser from 'body-parser';
 import db from './database';
+import initProductRoutes from './routes/product.routes';
 // import Product from './database/models/product.model';
 
 class Server {
@@ -10,11 +11,16 @@ class Server {
   constructor() {
     this.app = express();
     this.config();
+    this.initRoutes();
   }
 
   private config(): void {
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json({ limit: '1mb' }));
+  }
+
+  private initRoutes(): void {
+    initProductRoutes(this.app);
   }
 
   public start = (port: number): void => {
