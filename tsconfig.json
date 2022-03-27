@@ -2,7 +2,7 @@
   "compilerOptions": {
     "experimentalDecorators": true,
     "useDefineForClassFields": false,
-    "target": "es5",
+    "target": "es6",
     "sourceMap": true,
     "strict": true,
     "noImplicitAny": true,
