@@ -13,9 +13,9 @@ module.exports = {
     'prettier',
   ],
   settings: {
-    react: {
-      version: 'latest',
-    },
+    // react: {
+    //   version: 'latest',
+    // },
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'],
     },
@@ -37,14 +37,7 @@ module.exports = {
     ecmaVersion: 2020,
     sourceType: 'module',
   },
-  plugins: [
-    '@typescript-eslint',
-    'react',
-    'prettier',
-    'react-hooks',
-    '@emotion',
-    'import',
-  ],
+  plugins: ['@typescript-eslint', 'react', 'prettier', 'react-hooks', '@emotion', 'import'],
   overrides: [
     {
       files: ['*.ts', '*.tsx'],
@@ -85,7 +78,7 @@ module.exports = {
     ],
     '@typescript-eslint/no-require-imports': 'warn',
     // Disabled for now because of yelling on every React component
-    "@typescript-eslint/naming-convention": "off",
+    '@typescript-eslint/naming-convention': 'off',
     // Disabled prop-types rule for the React components because we already did specify it by typescript
     'react/prop-types': 'off',
     // Disable because just duplicates "@typescript-eslint/no-unused-vars" rule
