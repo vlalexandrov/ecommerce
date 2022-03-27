@@ -13,9 +13,6 @@ module.exports = {
     'prettier',
   ],
   settings: {
-    // react: {
-    //   version: 'latest',
-    // },
     'import/parsers': {
       '@typescript-eslint/parser': ['.ts', '.tsx'],
     },
