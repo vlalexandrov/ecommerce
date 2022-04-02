@@ -2,6 +2,7 @@ import express from 'express';
 import bodyParser from 'body-parser';
 import db from './database';
 import initProductRoutes from './routes/product.routes';
+import initProductCategoryRoutes from './routes/product-category.routes';
 
 class Server {
   private app;
@@ -20,6 +21,7 @@ class Server {
 
   private initRoutes(): void {
     initProductRoutes(this.app);
+    initProductCategoryRoutes(this.app);
   }
 
   public start = (port: number): void => {

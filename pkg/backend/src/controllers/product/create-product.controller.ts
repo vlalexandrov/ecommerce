@@ -8,13 +8,18 @@ async function createProductController(req: Request, res: Response): Promise<voi
   // console.log('price', price);
 
   try {
-    const product = new Product({ name: 'test', desc: 'test', price: 200 });
-    await product.save();
+    await Product.create({
+      name: 'test',
+      desc: 'test',
+      price: 200,
+      sku: '123456',
+      productAttributes: { size: 'XL', color: 'White', season: 'summer' },
+    });
+
+    res.send(200);
   } catch (e) {
     console.log('Error', e);
   }
-
-  res.send('hey man!');
 }
 
 export default createProductController;

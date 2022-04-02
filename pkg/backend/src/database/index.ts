@@ -1,6 +1,8 @@
 import { Sequelize } from 'sequelize-typescript';
 import { config } from 'dotenv';
 import Product from './models/product.model';
+import ProductAttributes from './models/product-attributes.model';
+import ProductCategory from './models/product-category.model';
 
 config();
 
@@ -12,7 +14,7 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
   dialect: 'postgres',
 });
 
-sequelize.addModels([Product]);
+sequelize.addModels([Product, ProductAttributes, ProductCategory]);
 
 sequelize
   .authenticate()
