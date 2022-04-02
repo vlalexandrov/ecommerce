@@ -5,8 +5,10 @@ import ProductAttributes from './models/product-attributes.model';
 import ProductCategory from './models/product-category.model';
 import ProductInventory from './models/product-inventory.model';
 import User from './models/user.model';
-import Cart from './models/card.model';
+import Cart from './models/cart.model';
 import CartItem from './models/cart-item.model';
+import Order from './models/order.model';
+import OrderItem from './models/order-item';
 
 config();
 
@@ -26,6 +28,8 @@ sequelize.addModels([
   User,
   Cart,
   CartItem,
+  Order,
+  OrderItem,
 ]);
 
 sequelize

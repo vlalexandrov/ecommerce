@@ -1,13 +1,13 @@
 import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey } from 'sequelize-typescript';
-import Cart from './cart.model';
 import Product from './product.model';
-import { ICartItem, ICartItemCreate } from '../../interfaces/cart-item.interface';
+import Order from './order.model';
+import { IOrderItem, IOrderItemCreate } from '../../interfaces/order-item.interface';
 
 @Table({ tableName: 'cart-item' })
-class CartItem extends Model<ICartItem, ICartItemCreate> {
-  @ForeignKey(() => Cart)
+class OrderItem extends Model<IOrderItem, IOrderItemCreate> {
+  @ForeignKey(() => Order)
   @Column({ allowNull: false })
-  cartId: string;
+  orderId: string;
 
   @ForeignKey(() => Product)
   @Column({ allowNull: false })
@@ -23,4 +23,4 @@ class CartItem extends Model<ICartItem, ICartItemCreate> {
   updatedAt: Date;
 }
 
-export default CartItem;
+export default OrderItem;
