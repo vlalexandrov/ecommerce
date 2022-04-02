@@ -1,32 +1,16 @@
 import { Request, Response } from 'express';
-import Product from '../../database/models/product.model';
-import ProductAttributes from '../../database/models/product-attributes.model';
-import ProductInventory from '../../database/models/product-inventory.model';
+import { IProduct } from '../../interfaces/product.interface';
+import { createProduct } from '../../services/product.service';
+import { sendErrorResponse, sendSuccessResponse } from '../../services/response.service';
 
 async function createProductController(req: Request, res: Response): Promise<void> {
-  // const { name, desc, price } = req.body;
+  const productDTO = req.body as IProduct;
 
   try {
-    const product = await Product.create(
-      {
-        name: 'test',
-        desc: 'test',
-        price: 200,
-        sku: '123456',
-        productAttributes: { size: 'XL', color: 'White', season: 'summer' },
-        productInventory: { quantity: 100 },
-      },
-      {
-        include: [ProductAttributes, ProductInventory],
-      },
-    );
-
-    res.send({
-      status: 200,
-      product,
-    });
+    const product = await createProduct(productDTO);
+    sendSuccessResponse(res, product, 201);
   } catch (e) {
-    console.log('Error', e);
+    sendErrorResponse(res, e.message);
   }
 }
 
