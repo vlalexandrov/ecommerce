@@ -6,6 +6,7 @@ import ProductCategory from './models/product-category.model';
 import ProductInventory from './models/product-inventory.model';
 import User from './models/user.model';
 import Cart from './models/card.model';
+import CartItem from './models/cart-item.model';
 
 config();
 
@@ -17,7 +18,15 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
   dialect: 'postgres',
 });
 
-sequelize.addModels([Product, ProductAttributes, ProductCategory, ProductInventory, User, Cart]);
+sequelize.addModels([
+  Product,
+  ProductAttributes,
+  ProductCategory,
+  ProductInventory,
+  User,
+  Cart,
+  CartItem,
+]);
 
 sequelize
   .authenticate()
