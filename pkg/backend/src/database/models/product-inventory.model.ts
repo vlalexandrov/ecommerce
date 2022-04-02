@@ -1,10 +1,21 @@
-import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  CreatedAt,
+  UpdatedAt,
+  ForeignKey,
+  DefaultScope,
+} from 'sequelize-typescript';
 import {
   IProductInventory,
   IProductInventoryCreate,
 } from '../../interfaces/product-inventory.interface';
 import Product from './product.model';
 
+@DefaultScope(() => ({
+  attributes: ['quantity'],
+}))
 @Table({ tableName: 'product-inventory' })
 class ProductInventory extends Model<IProductInventory, IProductInventoryCreate> {
   @ForeignKey(() => Product)
@@ -12,7 +23,7 @@ class ProductInventory extends Model<IProductInventory, IProductInventoryCreate>
   productId: number;
 
   @Column({ allowNull: false })
-  quantity: string;
+  quantity: number;
 
   @CreatedAt
   createdAt: Date;

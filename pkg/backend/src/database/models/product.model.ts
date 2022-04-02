@@ -6,12 +6,18 @@ import {
   UpdatedAt,
   HasOne,
   ForeignKey,
+  Scopes,
 } from 'sequelize-typescript';
 import ProductAttributes from './product-attributes.model';
 import ProductCategory from './product-category.model';
 import { IProduct, IProductCreate } from '../../interfaces/product.interface';
 import ProductInventory from './product-inventory.model';
 
+@Scopes(() => ({
+  basic: {
+    attributes: ['id', 'name', 'sku', 'desc', 'price'],
+  },
+}))
 @Table({ tableName: 'product' })
 class Product extends Model<IProduct, IProductCreate> {
   @Column({ allowNull: false })

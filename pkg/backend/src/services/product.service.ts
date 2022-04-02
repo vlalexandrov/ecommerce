@@ -2,22 +2,44 @@ import Product from '../database/models/product.model';
 import ProductAttributes from '../database/models/product-attributes.model';
 import ProductInventory from '../database/models/product-inventory.model';
 import { IProduct } from '../interfaces/product.interface';
+import { Op } from 'sequelize';
 
 const createProduct = async (productDTO: IProduct): Promise<Product> => {
   try {
-    const product = await Product.create(productDTO, {
+    return await Product.create(productDTO, {
       include: [ProductAttributes, ProductInventory],
     });
-
-    return product;
   } catch (e) {
     throw new Error(e);
   }
 };
 
-const getProductList = async (): Promise<Product[]> => {
+const getProductList = async (
+  offset = 0,
+): Promise<{
+  products: Product[];
+  count: number;
+}> => {
   try {
-    return await Product.findAll();
+    const { rows, count } = await Product.scope('basic').findAndCountAll({
+      include: [
+        {
+          model: ProductInventory,
+          where: {
+            quantity: {
+              [Op.gt]: 0,
+            },
+          },
+        },
+      ],
+      offset: offset,
+      limit: 2,
+    });
+
+    return {
+      products: rows,
+      count,
+    };
   } catch (e) {
     throw new Error(e);
   }
