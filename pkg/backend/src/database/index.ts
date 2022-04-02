@@ -1,6 +1,14 @@
 import { Sequelize } from 'sequelize-typescript';
 import { config } from 'dotenv';
 import Product from './models/product.model';
+import ProductAttributes from './models/product-attributes.model';
+import ProductCategory from './models/product-category.model';
+import ProductInventory from './models/product-inventory.model';
+import User from './models/user.model';
+import Cart from './models/cart.model';
+import CartItem from './models/cart-item.model';
+import Order from './models/order.model';
+import OrderItem from './models/order-item';
 
 config();
 
@@ -12,7 +20,17 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
   dialect: 'postgres',
 });
 
-sequelize.addModels([Product]);
+sequelize.addModels([
+  Product,
+  ProductAttributes,
+  ProductCategory,
+  ProductInventory,
+  User,
+  Cart,
+  CartItem,
+  Order,
+  OrderItem,
+]);
 
 sequelize
   .authenticate()
