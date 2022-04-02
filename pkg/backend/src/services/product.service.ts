@@ -15,4 +15,12 @@ const createProduct = async (productDTO: IProduct): Promise<Product> => {
   }
 };
 
-export { createProduct };
+const getProductList = async (): Promise<Product[]> => {
+  try {
+    return await Product.findAll();
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+export { createProduct, getProductList };
