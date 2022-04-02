@@ -1,5 +1,6 @@
 import { Optional } from 'sequelize';
 import { IProductAttributesCreate } from './product-attributes.interface';
+import { IProductInventoryCreate } from './product-inventory.interface';
 
 interface IProduct {
   id: number;
@@ -8,8 +9,9 @@ interface IProduct {
   desc?: string;
   price: number;
   categoryId?: number;
-  deleted?: boolean;
   productAttributes?: IProductAttributesCreate;
+  productInventory?: IProductInventoryCreate;
+  deleted?: boolean;
 }
 
 interface IProductCreate extends Optional<IProduct, 'id'> {}

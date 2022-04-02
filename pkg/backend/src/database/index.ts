@@ -3,6 +3,7 @@ import { config } from 'dotenv';
 import Product from './models/product.model';
 import ProductAttributes from './models/product-attributes.model';
 import ProductCategory from './models/product-category.model';
+import ProductInventory from './models/product-inventory.model';
 
 config();
 
@@ -14,7 +15,7 @@ const sequelize = new Sequelize(DB_DATABASE, DB_USERNAME, DB_PASSWORD, {
   dialect: 'postgres',
 });
 
-sequelize.addModels([Product, ProductAttributes, ProductCategory]);
+sequelize.addModels([Product, ProductAttributes, ProductCategory, ProductInventory]);
 
 sequelize
   .authenticate()

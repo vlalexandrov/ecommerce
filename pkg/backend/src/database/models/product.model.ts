@@ -10,6 +10,7 @@ import {
 import ProductAttributes from './product-attributes.model';
 import ProductCategory from './product-category.model';
 import { IProduct, IProductCreate } from '../../interfaces/product.interface';
+import ProductInventory from './product-inventory.model';
 
 @Table({ tableName: 'product' })
 class Product extends Model<IProduct, IProductCreate> {
@@ -29,9 +30,6 @@ class Product extends Model<IProduct, IProductCreate> {
   @Column
   categoryId: number;
 
-  @Column({ allowNull: true })
-  inventoryId: number;
-
   @Column
   deleted: boolean;
 
@@ -43,6 +41,9 @@ class Product extends Model<IProduct, IProductCreate> {
 
   @HasOne(() => ProductAttributes)
   productAttributes: ProductAttributes;
+
+  @HasOne(() => ProductInventory)
+  productInventory: ProductInventory;
 }
 
 export default Product;
