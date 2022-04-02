@@ -1,19 +1,12 @@
 import { Table, Column, Model, CreatedAt, UpdatedAt, HasMany } from 'sequelize-typescript';
 import Product from './product.model';
-
-export interface IProductCategory {
-  name: string;
-  desc?: string;
-  deleted?: boolean;
-}
+import {
+  IProductCategory,
+  IProductCategoryCreate,
+} from '../../interfaces/product-category.interface';
 
 @Table({ tableName: 'product-category' })
-class ProductCategory extends Model<IProductCategory> {
-  // <ProductCategory>
-  // @ForeignKey(() => Product)
-  // @Column({ allowNull: false })
-  // productId: number;
-
+class ProductCategory extends Model<IProductCategory, IProductCategoryCreate> {
   @Column({ allowNull: false })
   name: string;
 
