@@ -1,16 +1,16 @@
 import { Request, Response } from 'express';
-import ProductCategory from '../../database/models/product-category.model';
+import { sendErrorResponse, sendSuccessResponse } from '../../services/response.service';
+import { IProductCategory } from '../../interfaces/product-category.interface';
+import { createCategory } from '../../services/product-category.service';
 
 async function createProductCategoryController(req: Request, res: Response): Promise<void> {
-  try {
-    await ProductCategory.create({
-      name: 'test',
-      desc: 'test',
-    });
+  const categoryDto = req.body as IProductCategory;
 
-    res.send(200);
+  try {
+    const category = await createCategory(categoryDto);
+    sendSuccessResponse(res, category, 201);
   } catch (e) {
-    console.log('Error', e);
+    sendErrorResponse(res, e.message);
   }
 }
 
