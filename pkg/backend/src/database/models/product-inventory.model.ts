@@ -14,7 +14,7 @@ import {
 import Product from './product.model';
 
 @DefaultScope(() => ({
-  attributes: ['quantity'],
+  attributes: ['id', 'quantity'],
 }))
 @Table({ tableName: 'product-inventory' })
 class ProductInventory extends Model<IProductInventory, IProductInventoryCreate> {

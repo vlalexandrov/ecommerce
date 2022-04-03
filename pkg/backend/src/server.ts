@@ -3,6 +3,7 @@ import bodyParser from 'body-parser';
 import db from './database';
 import initProductRoutes from './routes/product.routes';
 import initProductCategoryRoutes from './routes/product-category.routes';
+import initProductInventoryRoutes from './routes/inventory.routes';
 import initUserRoutes from './routes/user.routes';
 
 class Server {
@@ -23,6 +24,7 @@ class Server {
   private initRoutes(): void {
     initProductRoutes(this.app);
     initProductCategoryRoutes(this.app);
+    initProductInventoryRoutes(this.app);
     initUserRoutes(this.app);
   }
 
