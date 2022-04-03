@@ -1,11 +1,11 @@
 import controllers from '../controllers';
 import { Application } from 'express';
 
-const { createProductController, getProductController } = controllers;
+const { createProductController, getProductListController } = controllers;
 
 const initProductRoutes = (app: Application): void => {
   app.post('/products', createProductController);
-  app.get('/products', getProductController);
+  app.get('/products', getProductListController);
 };
 
 export default initProductRoutes;
