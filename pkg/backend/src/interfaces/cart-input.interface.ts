@@ -1,7 +1,7 @@
 export interface CartInput {
   userId: number;
   products: {
-    id: number;
+    productId: number;
     quantity: number;
   }[];
 }

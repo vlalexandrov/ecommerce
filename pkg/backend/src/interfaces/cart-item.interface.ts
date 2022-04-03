@@ -2,7 +2,6 @@ import { Optional } from 'sequelize';
 
 interface ICartItem {
   id: number;
-  cartId: number;
   productId: number;
   quantity: number;
 }

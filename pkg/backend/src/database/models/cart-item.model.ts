@@ -6,8 +6,8 @@ import { ICartItem, ICartItemCreate } from '../../interfaces/cart-item.interface
 @Table({ tableName: 'cart-item' })
 class CartItem extends Model<ICartItem, ICartItemCreate> {
   @ForeignKey(() => Cart)
-  @Column({ allowNull: false })
-  cartId: string;
+  @Column
+  cartId: number;
 
   @ForeignKey(() => Product)
   @Column({ allowNull: false })
