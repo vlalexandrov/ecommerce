@@ -3,6 +3,8 @@ import ProductAttributes from '../database/models/product-attributes.model';
 import ProductInventory from '../database/models/product-inventory.model';
 import { IProduct } from '../interfaces/product.interface';
 import { Op } from 'sequelize';
+import productModelToDtoMapper from '../mappers/products/product-model-to-dto.mapper';
+import { ProductDto } from '../dto/products/product.dto';
 
 const createProduct = async (productDTO: IProduct): Promise<Product> => {
   try {
@@ -45,7 +47,7 @@ const getProductList = async (
   }
 };
 
-const getProduct = async (id: number): Promise<Product> => {
+const getProduct = async (id: number): Promise<ProductDto> => {
   try {
     const product = await Product.findOne({
       where: {
@@ -54,7 +56,7 @@ const getProduct = async (id: number): Promise<Product> => {
       include: [ProductAttributes, ProductInventory],
     });
 
-    return product;
+    return productModelToDtoMapper(product);
   } catch (e) {
     throw new Error(e);
   }
