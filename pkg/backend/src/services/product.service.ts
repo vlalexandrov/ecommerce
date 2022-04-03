@@ -45,4 +45,19 @@ const getProductList = async (
   }
 };
 
-export { createProduct, getProductList };
+const getProduct = async (id: number): Promise<Product> => {
+  try {
+    const product = await Product.findOne({
+      where: {
+        id,
+      },
+      include: [ProductAttributes, ProductInventory],
+    });
+
+    return product;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+export { createProduct, getProductList, getProduct };
