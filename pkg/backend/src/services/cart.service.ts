@@ -2,9 +2,9 @@ import { CartInput } from '../interfaces/cart-input.interface';
 import Cart from '../database/models/cart.model';
 import Product from '../database/models/product.model';
 import CartItem from '../database/models/cart-item.model';
+import { Op } from 'sequelize';
 
 const createOrUpdateCart = async (cart: CartInput): Promise<any> => {
-  // console.log('cart Input', cart);
   const { userId, products } = cart;
   const productWithPrices = [];
   let cartTotal = 0;
@@ -32,15 +32,41 @@ const createOrUpdateCart = async (cart: CartInput): Promise<any> => {
     const existingCart = await Cart.findOne({
       where: {
         userId,
-        closed: false,
+        closed: {
+          [Op.is]: null,
+        },
       },
+      include: [CartItem],
     });
 
     if (existingCart) {
-      console.log('------ CART EXISTS ------');
+      await existingCart.set({
+        userId,
+        total: cartTotal,
+      });
+
+      for (const product of products) {
+        const cartItemExists = existingCart.cartItems.find(
+          cartItem => cartItem.productId === product.productId,
+        );
+        if (cartItemExists) {
+          await cartItemExists.update({
+            productId: product.productId,
+            quantity: product.quantity,
+          });
+        } else {
+          //TODO: Fix here. Not working
+          await existingCart.update('cartItems', [
+            {
+              productId: product.productId,
+              quantity: product.quantity,
+            },
+          ]);
+        }
+      }
     } else {
       // Create a new Cart
-      const newCart = await Cart.create(
+      return await Cart.create(
         {
           userId,
           total: cartTotal,
@@ -50,8 +76,6 @@ const createOrUpdateCart = async (cart: CartInput): Promise<any> => {
           include: [CartItem],
         },
       );
-
-      return newCart;
     }
   } catch (e) {
     throw new Error(e);
