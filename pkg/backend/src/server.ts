@@ -4,6 +4,7 @@ import db from './database';
 import initProductRoutes from './routes/product.routes';
 import initProductCategoryRoutes from './routes/product-category.routes';
 import initProductInventoryRoutes from './routes/inventory.routes';
+import initUserRoutes from './routes/user.routes';
 
 class Server {
   private app;
@@ -24,6 +25,7 @@ class Server {
     initProductRoutes(this.app);
     initProductCategoryRoutes(this.app);
     initProductInventoryRoutes(this.app);
+    initUserRoutes(this.app);
   }
 
   public start = (port: number): void => {

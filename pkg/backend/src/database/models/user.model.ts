@@ -1,6 +1,9 @@
-import { Table, Column, Model, CreatedAt, UpdatedAt } from 'sequelize-typescript';
+import { Table, Column, Model, CreatedAt, UpdatedAt, DefaultScope } from 'sequelize-typescript';
 import { IUser, IUserCreate } from '../../interfaces/user.interface';
 
+@DefaultScope(() => ({
+  attributes: ['id', 'username', 'firstName', 'lastName', 'email'],
+}))
 @Table({ tableName: 'user' })
 class User extends Model<IUser, IUserCreate> {
   @Column({ allowNull: false })
