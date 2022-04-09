@@ -1,8 +1,25 @@
 import { CartInput } from '../interfaces/cart-input.interface';
 import Cart from '../database/models/cart.model';
-import Product from '../database/models/product.model';
 import CartItem from '../database/models/cart-item.model';
 import { Op } from 'sequelize';
+import { getProduct } from './product.service';
+
+const addItemToCart = async (cartId, productId: number, quantity): Promise<any> => {
+  return await CartItem.create({
+    cartId,
+    productId: productId,
+    quantity: quantity,
+  });
+};
+
+const removeItemFromCart = async (cartId, productId: number): Promise<any> => {
+  return await CartItem.destroy({
+    where: {
+      cartId,
+      productId,
+    },
+  });
+};
 
 const createOrUpdateCart = async (cart: CartInput): Promise<any> => {
   const { userId, products } = cart;
@@ -11,12 +28,7 @@ const createOrUpdateCart = async (cart: CartInput): Promise<any> => {
 
   try {
     for (const product of products) {
-      // Get product
-      const productRecord = await Product.findOne({
-        where: {
-          id: product.productId,
-        },
-      });
+      const productRecord = await getProduct(product.productId);
 
       // Generate new array with product prices
       productWithPrices.push({
@@ -49,18 +61,12 @@ const createOrUpdateCart = async (cart: CartInput): Promise<any> => {
       // Deleting items
       if (existingCart.cartItems.length > products.length) {
         for (const productInDb of existingCart.cartItems) {
-          // Order item contains product that not exists in request
           const sameProductInRequest = products.find(
             product => product.productId === productInDb.productId,
           );
 
           if (!sameProductInRequest) {
-            await CartItem.destroy({
-              where: {
-                cartId,
-                productId: productInDb.productId,
-              },
-            });
+            await removeItemFromCart(cartId, productInDb.productId);
           }
         }
       }
@@ -77,12 +83,7 @@ const createOrUpdateCart = async (cart: CartInput): Promise<any> => {
             quantity: product.quantity,
           });
         } else {
-          // Add a new item to the cart
-          await CartItem.create({
-            cartId,
-            productId: product.productId,
-            quantity: product.quantity,
-          });
+          await addItemToCart(cartId, product.productId, product.quantity);
         }
       }
     } else {
