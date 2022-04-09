@@ -111,4 +111,38 @@ const createOrUpdateCart = async (cart: CartInput): Promise<any> => {
   }
 };
 
-export { createOrUpdateCart };
+const closeCartById = async (id: number): Promise<any> => {
+  const cart = await Cart.findOne({
+    where: {
+      id,
+    },
+    include: [CartItem],
+  });
+
+  if (!cart) {
+    throw new Error('No cart with specified ID found');
+  }
+
+  try {
+    await cart.update({
+      closed: true,
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+const getCart = async (id: number): Promise<Cart> => {
+  try {
+    return await Cart.findOne({
+      where: {
+        id,
+      },
+      include: [CartItem],
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+export { createOrUpdateCart, closeCartById, getCart };
