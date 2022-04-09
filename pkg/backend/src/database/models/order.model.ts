@@ -15,7 +15,7 @@ import OrderItem from './order-item';
 class Order extends Model<IOrder, IOrderCreate> {
   @ForeignKey(() => User)
   @Column({ allowNull: false })
-  userId: string;
+  userId: number;
 
   @Column({ allowNull: false })
   total: number;

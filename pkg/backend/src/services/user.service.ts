@@ -9,4 +9,16 @@ const createUser = async (userDto: IUser): Promise<User> => {
   }
 };
 
-export { createUser };
+const getUserById = async (id: number): Promise<User> => {
+  try {
+    return await User.findOne({
+      where: {
+        id,
+      },
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+export { createUser, getUserById };
