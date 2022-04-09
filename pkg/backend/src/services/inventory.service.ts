@@ -35,4 +35,18 @@ const updateInventory = async (productId: number, count: number): Promise<any> =
   }
 };
 
-export { updateInventory };
+const getProductQuantityFromInventory = async (productId: number): Promise<number> => {
+  try {
+    const product = await ProductInventory.findOne({
+      where: {
+        id: productId,
+      },
+    });
+
+    return product.quantity;
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+export { updateInventory, getProductQuantityFromInventory };

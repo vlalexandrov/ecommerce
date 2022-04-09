@@ -3,6 +3,7 @@ import Cart from '../database/models/cart.model';
 import CartItem from '../database/models/cart-item.model';
 import { Op } from 'sequelize';
 import { getProduct } from './product.service';
+import { getProductQuantityFromInventory } from './inventory.service';
 
 const addItemToCart = async (cartId, productId: number, quantity): Promise<any> => {
   return await CartItem.create({
@@ -29,6 +30,15 @@ const createOrUpdateCart = async (cart: CartInput): Promise<any> => {
   try {
     for (const product of products) {
       const productRecord = await getProduct(product.productId);
+      if (!productRecord) {
+        throw new Error("The product doesn't exist");
+      }
+
+      const productQuantityInInventory = await getProductQuantityFromInventory(product.productId);
+
+      if (productQuantityInInventory < product.quantity) {
+        throw new Error('Not enough quantity in the inventory');
+      }
 
       // Generate new array with product prices
       productWithPrices.push({
