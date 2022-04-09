@@ -12,7 +12,7 @@ async function createOrderController(req: Request, res: Response): Promise<void>
 
   try {
     await placeOrder(cartId);
-    sendSuccessResponse(res, '', 201);
+    sendSuccessResponse(res, 'The order has been successfully placed', 201);
   } catch (e) {
     sendErrorResponse(res, e.message);
   }

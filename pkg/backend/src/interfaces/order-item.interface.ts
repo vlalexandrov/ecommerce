@@ -2,7 +2,7 @@ import { Optional } from 'sequelize';
 
 interface IOrderItem {
   id: number;
-  orderId: number;
+  orderId?: number;
   productId: number;
   quantity: number;
 }

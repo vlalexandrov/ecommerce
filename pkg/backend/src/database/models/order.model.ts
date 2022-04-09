@@ -1,6 +1,15 @@
-import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  CreatedAt,
+  UpdatedAt,
+  ForeignKey,
+  HasMany,
+} from 'sequelize-typescript';
 import User from './user.model';
 import { IOrder, IOrderCreate } from '../../interfaces/order.interface';
+import OrderItem from './order-item';
 
 @Table({ tableName: 'order' })
 class Order extends Model<IOrder, IOrderCreate> {
@@ -16,6 +25,9 @@ class Order extends Model<IOrder, IOrderCreate> {
 
   @UpdatedAt
   updatedAt: Date;
+
+  @HasMany(() => OrderItem)
+  orderItems: OrderItem[];
 }
 
 export default Order;
