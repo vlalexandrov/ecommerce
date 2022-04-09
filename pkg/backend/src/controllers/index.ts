@@ -3,6 +3,7 @@ import productCategoryControllers from './product-cateogory';
 import productInventoryControllers from './product-inventory';
 import userControllers from './user';
 import cartControllers from './cart';
+import orderControllers from './order';
 
 export default {
   ...productControllers,
@@ -10,4 +11,5 @@ export default {
   ...productInventoryControllers,
   ...userControllers,
   ...cartControllers,
+  ...orderControllers,
 };

@@ -3,7 +3,6 @@ import Cart from '../database/models/cart.model';
 import CartItem from '../database/models/cart-item.model';
 import { Op } from 'sequelize';
 import { getProduct } from './product.service';
-import { getProductQuantityFromInventory } from './inventory.service';
 
 const addItemToCart = async (cartId, productId: number, quantity): Promise<any> => {
   return await CartItem.create({
@@ -34,9 +33,7 @@ const createOrUpdateCart = async (cart: CartInput): Promise<any> => {
         throw new Error("The product doesn't exist");
       }
 
-      const productQuantityInInventory = await getProductQuantityFromInventory(product.productId);
-
-      if (productQuantityInInventory < product.quantity) {
+      if (productRecord.quantity < product.quantity) {
         throw new Error('Not enough quantity in the inventory');
       }
 
@@ -114,4 +111,38 @@ const createOrUpdateCart = async (cart: CartInput): Promise<any> => {
   }
 };
 
-export { createOrUpdateCart };
+const closeCartById = async (id: number): Promise<any> => {
+  const cart = await Cart.findOne({
+    where: {
+      id,
+    },
+    include: [CartItem],
+  });
+
+  if (!cart) {
+    throw new Error('No cart with specified ID found');
+  }
+
+  try {
+    await cart.update({
+      closed: true,
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+const getCart = async (id: number): Promise<Cart> => {
+  try {
+    return await Cart.findOne({
+      where: {
+        id,
+      },
+      include: [CartItem],
+    });
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
+export { createOrUpdateCart, closeCartById, getCart };

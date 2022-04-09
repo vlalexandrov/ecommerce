@@ -6,7 +6,7 @@ import { IOrderItem, IOrderItemCreate } from '../../interfaces/order-item.interf
 @Table({ tableName: 'order-item' })
 class OrderItem extends Model<IOrderItem, IOrderItemCreate> {
   @ForeignKey(() => Order)
-  @Column({ allowNull: false })
+  @Column
   orderId: string;
 
   @ForeignKey(() => Product)
