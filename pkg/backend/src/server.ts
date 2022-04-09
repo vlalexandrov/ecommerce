@@ -7,6 +7,7 @@ import {
   initProductInventoryRoutes,
   initProductRoutes,
   initUserRoutes,
+  initOrderRoutes,
 } from './routes';
 
 class Server {
@@ -30,6 +31,7 @@ class Server {
     initProductInventoryRoutes(this.app);
     initUserRoutes(this.app);
     initCartRoutes(this.app);
+    initOrderRoutes(this.app);
   }
 
   public start = (port: number): void => {
