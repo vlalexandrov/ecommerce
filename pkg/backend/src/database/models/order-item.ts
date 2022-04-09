@@ -3,7 +3,7 @@ import Product from './product.model';
 import Order from './order.model';
 import { IOrderItem, IOrderItemCreate } from '../../interfaces/order-item.interface';
 
-@Table({ tableName: 'cart-item' })
+@Table({ tableName: 'order-item' })
 class OrderItem extends Model<IOrderItem, IOrderItemCreate> {
   @ForeignKey(() => Order)
   @Column({ allowNull: false })
