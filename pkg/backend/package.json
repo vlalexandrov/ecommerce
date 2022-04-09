@@ -3,16 +3,19 @@
   "version": "1.0.0",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && cp ./src/views/* ./dist/views",
     "start": "node .",
     "dev": "nodemon src/index.ts"
   },
   "license": "MIT",
   "dependencies": {
+    "@types/pug": "^2.0.6",
+    "dayjs": "^1.11.0",
     "dotenv": "^16.0.0",
     "express": "^4.17.3",
     "pg": "^8.7.3",
     "pg-hstore": "^2.3.4",
+    "pug": "^3.0.2",
     "reflect-metadata": "^0.1.13",
     "sequelize": "^6.17.0",
     "sequelize-typescript": "^2.1.3"

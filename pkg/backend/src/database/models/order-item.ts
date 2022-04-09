@@ -1,8 +1,19 @@
-import { Table, Column, Model, CreatedAt, UpdatedAt, ForeignKey } from 'sequelize-typescript';
+import {
+  Table,
+  Column,
+  Model,
+  CreatedAt,
+  UpdatedAt,
+  ForeignKey,
+  DefaultScope,
+} from 'sequelize-typescript';
 import Product from './product.model';
 import Order from './order.model';
 import { IOrderItem, IOrderItemCreate } from '../../interfaces/order-item.interface';
 
+@DefaultScope(() => ({
+  attributes: ['id', 'orderId', 'productId', 'quantity', 'price'],
+}))
 @Table({ tableName: 'order-item' })
 class OrderItem extends Model<IOrderItem, IOrderItemCreate> {
   @ForeignKey(() => Order)

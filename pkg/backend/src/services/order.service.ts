@@ -61,4 +61,13 @@ const placeOrder = async (cartId): Promise<Order> => {
   }
 };
 
-export { placeOrder };
+const getOrderById = async (id: number): Promise<Order> => {
+  return await Order.findOne({
+    where: {
+      id,
+    },
+    include: [OrderItem],
+  });
+};
+
+export { placeOrder, getOrderById };

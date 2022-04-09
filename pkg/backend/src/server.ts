@@ -7,7 +7,9 @@ import {
   initProductInventoryRoutes,
   initProductRoutes,
   initUserRoutes,
+  initOrderRoutes,
 } from './routes';
+import path from 'path';
 
 class Server {
   private app;
@@ -20,6 +22,9 @@ class Server {
   }
 
   private config(): void {
+    this.app.set('views', path.join(__dirname, 'views'));
+    this.app.set('view engine', 'pug');
+
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json({ limit: '1mb' }));
   }
@@ -30,6 +35,7 @@ class Server {
     initProductInventoryRoutes(this.app);
     initUserRoutes(this.app);
     initCartRoutes(this.app);
+    initOrderRoutes(this.app);
   }
 
   public start = (port: number): void => {
