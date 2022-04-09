@@ -3,6 +3,7 @@ import { getProductInventory } from './inventory.service';
 import { getProduct } from './product.service';
 import Order from '../database/models/order.model';
 import OrderItem from '../database/models/order-item';
+import { IOrderItemCreate } from '../interfaces/order-item.interface';
 
 const placeOrder = async (cartId): Promise<Order> => {
   try {
@@ -19,19 +20,29 @@ const placeOrder = async (cartId): Promise<Order> => {
     // Close cart
     await closeCartById(cartId);
 
+    const orderItems: IOrderItemCreate[] = [];
+
     // Update inventory
     for (const cartItem of cart.cartItems) {
-      const product = await getProduct(cartItem.productId);
-      const productInventory = await getProductInventory(cartItem.productId);
+      const { productId, quantity } = cartItem;
 
-      if (product.quantity < cartItem.quantity) {
+      const product = await getProduct(productId);
+      const productInventory = await getProductInventory(productId);
+
+      if (product.quantity < quantity) {
         throw new Error(
-          `Not enough quantity in the inventory for the product with ID ${cartItem.productId}`,
+          `Not enough quantity in the inventory for the product with ID ${productId}`,
         );
       }
 
       await productInventory.update({
-        quantity: productInventory.quantity - cartItem.quantity,
+        quantity: productInventory.quantity - quantity,
+      });
+
+      orderItems.push({
+        productId,
+        quantity,
+        price: product.price,
       });
     }
 
@@ -39,7 +50,7 @@ const placeOrder = async (cartId): Promise<Order> => {
       {
         userId: parseInt(cart.userId),
         total: cart.total,
-        orderItems: cart.cartItems,
+        orderItems,
       },
       {
         include: [OrderItem],

@@ -7,7 +7,7 @@ import { IOrderItem, IOrderItemCreate } from '../../interfaces/order-item.interf
 class OrderItem extends Model<IOrderItem, IOrderItemCreate> {
   @ForeignKey(() => Order)
   @Column
-  orderId: string;
+  orderId: number;
 
   @ForeignKey(() => Product)
   @Column({ allowNull: false })
@@ -15,6 +15,9 @@ class OrderItem extends Model<IOrderItem, IOrderItemCreate> {
 
   @Column({ allowNull: false })
   quantity: number;
+
+  @Column({ allowNull: false })
+  price: number;
 
   @CreatedAt
   createdAt: Date;

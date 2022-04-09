@@ -5,6 +5,7 @@ interface IOrderItem {
   orderId?: number;
   productId: number;
   quantity: number;
+  price: number;
 }
 
 interface IOrderItemCreate extends Optional<IOrderItem, 'id'> {}
