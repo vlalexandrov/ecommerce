@@ -40,28 +40,49 @@ const createOrUpdateCart = async (cart: CartInput): Promise<any> => {
     });
 
     if (existingCart) {
+      const cartId = existingCart.get().id;
       await existingCart.set({
         userId,
         total: cartTotal,
       });
 
+      // Deleting items
+      if (existingCart.cartItems.length > products.length) {
+        for (const productInDb of existingCart.cartItems) {
+          // Order item contains product that not exists in request
+          const sameProductInRequest = products.find(
+            product => product.productId === productInDb.productId,
+          );
+
+          if (!sameProductInRequest) {
+            await CartItem.destroy({
+              where: {
+                cartId,
+                productId: productInDb.productId,
+              },
+            });
+          }
+        }
+      }
+
+      // Creating & updating items
       for (const product of products) {
         const cartItemExists = existingCart.cartItems.find(
           cartItem => cartItem.productId === product.productId,
         );
         if (cartItemExists) {
+          // Update existing cart item
           await cartItemExists.update({
             productId: product.productId,
             quantity: product.quantity,
           });
         } else {
-          //TODO: Fix here. Not working
-          await existingCart.update('cartItems', [
-            {
-              productId: product.productId,
-              quantity: product.quantity,
-            },
-          ]);
+          // Add a new item to the cart
+          await CartItem.create({
+            cartId,
+            productId: product.productId,
+            quantity: product.quantity,
+          });
         }
       }
     } else {
