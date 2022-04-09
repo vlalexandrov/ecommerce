@@ -1,5 +1,43 @@
 head
-  title Order #00
+  title Order Details
 body
-  h1 Order details
+  h3 Order summary
   hr
+  table(border=1, cellpadding=5)
+    tbody
+      tr
+        td Total
+        td= total
+      tr
+        td Date
+        td= date
+  h3 User Information
+  hr
+  table(border=1, cellpadding=5)
+    tbody
+      tr
+        td Username
+        td= user.username
+      tr
+        td Firstname
+        td= user.firstName
+      tr
+        td Lastname
+        td= user.lastName
+      tr
+        td Email
+        td= user.email
+  h3 Order items details
+  hr
+  table(border=1, cellpadding=5)
+    thead
+      tr
+        th Title
+        th Price
+        th Quantity
+    tbody
+        each item in orderItems
+          tr
+            td= item.productName
+            td= item.price
+            td= item.quantity
