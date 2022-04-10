@@ -1,0 +1,17 @@
+@import 'normalize';
+@import 'reset';
+@import 'variables';
+
+$background-color: #fff;
+$text-color: rgba(#000, 0.87);
+
+body {
+  background: $background-color;
+  color: $text-color;
+  font-family: $font-system;
+}
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
