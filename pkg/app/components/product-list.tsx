@@ -1,31 +1,36 @@
-import React, { FC, useEffect } from 'react';
-import {
-  Box,
-  Heading,
-  Table,
-  Thead,
-  Tbody,
-  Tfoot,
-  Tr,
-  Th,
-  Td,
-  TableCaption,
-  TableContainer,
-} from '@chakra-ui/react';
+import React, { FC, useEffect, useState } from 'react';
+import { Box, Heading, Table, Thead, Tbody, Tr, Th, Td, TableContainer } from '@chakra-ui/react';
 import { fetchAPI } from '../lib/api';
+import { IProduct } from '../interfaces/product';
+import { formatNumber } from '../utils/formatNumber';
 
 const ProductList: FC = () => {
-  useEffect(() => {
-    try {
-      const data = fetchAPI('/products');
+  const [products, setProducts] = useState<IProduct[] | null>(null);
 
-      data.then((data: any) => {
-        console.log('data', data);
-      });
-    } catch (e) {
-      console.error('Error', e);
-    }
+  useEffect(() => {
+    const data = fetchAPI('/products');
+
+    data.then((data: IProduct[]) => {
+      setProducts(data);
+    });
   }, []);
+
+  if (!products) return null;
+
+  const productsList = products
+    .sort((a, b) => a.id - b.id)
+    .map(product => {
+      const { id, name, price, desc, productInventory } = product;
+      return (
+        <Tr key={id}>
+          <Td>{id}</Td>
+          <Td>{name}</Td>
+          <Td>{desc}</Td>
+          <Td>{formatNumber(price, '$')}</Td>
+          <Td>{productInventory.quantity}</Td>
+        </Tr>
+      );
+    });
 
   return (
     <Box width={'100%'}>
@@ -34,38 +39,16 @@ const ProductList: FC = () => {
       </Heading>
       <TableContainer>
         <Table variant="simple">
-          <TableCaption>Imperial to metric conversion factors</TableCaption>
           <Thead>
             <Tr>
-              <Th>To convert</Th>
-              <Th>into</Th>
-              <Th isNumeric>multiply by</Th>
+              <Th>Id</Th>
+              <Th>Title</Th>
+              <Th>Description</Th>
+              <Th>Price</Th>
+              <Th>Inventory quantity</Th>
             </Tr>
           </Thead>
-          <Tbody>
-            <Tr>
-              <Td>inches</Td>
-              <Td>millimetres (mm)</Td>
-              <Td isNumeric>25.4</Td>
-            </Tr>
-            <Tr>
-              <Td>feet</Td>
-              <Td>centimetres (cm)</Td>
-              <Td isNumeric>30.48</Td>
-            </Tr>
-            <Tr>
-              <Td>yards</Td>
-              <Td>metres (m)</Td>
-              <Td isNumeric>0.91444</Td>
-            </Tr>
-          </Tbody>
-          <Tfoot>
-            <Tr>
-              <Th>To convert</Th>
-              <Th>into</Th>
-              <Th isNumeric>multiply by</Th>
-            </Tr>
-          </Tfoot>
+          <Tbody>{productsList}</Tbody>
         </Table>
       </TableContainer>
     </Box>

@@ -4,6 +4,16 @@ const {
   publicRuntimeConfig: { apiConfig },
 } = getConfig();
 
+enum ResponseType {
+  Success = 'success',
+  Error = 'error',
+}
+
+interface Response {
+  type: ResponseType;
+  data: any;
+}
+
 const getApiURL = (path = ''): string => {
   return (apiConfig.apiUrl || 'http://localhost:3000') + path;
 };
@@ -11,10 +21,19 @@ const getApiURL = (path = ''): string => {
 // Helper to make GET requests to Strapi
 const fetchAPI = async (path: string): Promise<any> => {
   const requestUrl = getApiURL(path);
-  console.log('requestUrl', requestUrl);
-  const response = await fetch(requestUrl);
 
-  return await response.json();
+  try {
+    const response = await fetch(requestUrl);
+    const responseJson: Response = await response.json();
+
+    if (responseJson.type !== ResponseType.Success) {
+      throw new Error('Something went wrong');
+    }
+
+    return responseJson.data;
+  } catch (e: any) {
+    throw new Error(e);
+  }
 };
 
 export { fetchAPI };

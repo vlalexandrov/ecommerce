@@ -7,15 +7,12 @@ const Sidebar: FC = () => {
   return (
     <VStack align="flex-start" h="full" w={'15%'} minW={200} flexShrink={0}>
       <Box w={'100%'} h="full" pr={5} borderRadius={10}>
-        <MenuItem link={'/generator'} title={'Proposal Generator'} />
+        <MenuItem link={'/'} title="Product List" />
         <Divider mt={3} mb={3} />
         <MenuItem link={'/archive'} title={'Saved Proposals'} />
         <MenuItem link={'/faq'} title={'FAQ'} />
         <Divider mt={3} mb={3} />
         <MenuItem link={'/portfolio'} title={'Portfolio'} />
-      </Box>
-      <Box fontSize="sm">
-        <a href="/api/auth/logout">Logout</a>
       </Box>
     </VStack>
   );
