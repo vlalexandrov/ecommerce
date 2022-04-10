@@ -9,6 +9,14 @@ const createUser = async (userDto: IUser): Promise<User> => {
   }
 };
 
+const getUserList = async (): Promise<User[]> => {
+  try {
+    return await User.findAll();
+  } catch (e) {
+    throw new Error(e);
+  }
+};
+
 const getUserById = async (id: number): Promise<User> => {
   try {
     return await User.findOne({
@@ -21,4 +29,4 @@ const getUserById = async (id: number): Promise<User> => {
   }
 };
 
-export { createUser, getUserById };
+export { createUser, getUserById, getUserList };
