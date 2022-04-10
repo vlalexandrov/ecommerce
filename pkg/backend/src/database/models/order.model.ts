@@ -14,7 +14,7 @@ import OrderItem from './order-item';
 @Table({ tableName: 'order' })
 class Order extends Model<IOrder, IOrderCreate> {
   @ForeignKey(() => User)
-  @Column({ allowNull: false })
+  @Column
   userId: number;
 
   @Column({ allowNull: false })

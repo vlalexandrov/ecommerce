@@ -92,4 +92,18 @@ const getOrderHistoryByProductId = async (id: number): Promise<Order[]> => {
   });
 };
 
-export { placeOrder, getOrderById, getOrderHistoryByProductId };
+const getUserOrderHistoryById = async (id: number): Promise<Order[]> => {
+  const orders = await Order.findAll({
+    where: {
+      // TODO: fix type
+      userId: String(id),
+    },
+    include: [OrderItem],
+  });
+
+  console.log('orders', orders);
+
+  return orders;
+};
+
+export { placeOrder, getOrderById, getOrderHistoryByProductId, getUserOrderHistoryById };

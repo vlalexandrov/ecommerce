@@ -12,40 +12,39 @@ import {
   Button,
 } from '@chakra-ui/react';
 import { fetchAPI } from '../lib/api';
-import { IProduct } from '../interfaces/product';
-import { formatNumber } from '../utils/formatNumber';
 import { useRouter } from 'next/router';
+import { IUser } from '../interfaces/user';
 
-const ProductList: FC = () => {
+const UsersList: FC = () => {
   const router = useRouter();
-  const [products, setProducts] = useState<IProduct[] | null>(null);
+  const [users, setUsers] = useState<IUser[] | null>(null);
 
   useEffect(() => {
-    const data = fetchAPI('/products');
+    const data = fetchAPI('/users');
 
-    data.then((data: IProduct[]) => {
-      setProducts(data);
+    data.then((data: IUser[]) => {
+      setUsers(data);
     });
   }, []);
 
-  if (!products) return null;
+  if (!users) return null;
 
-  const productsList = products
+  const usersList = users
     .sort((a, b) => a.id - b.id)
-    .map(product => {
-      const { id, name, price, desc, productInventory } = product;
+    .map(user => {
+      const { id, username, firstName, lastName, email } = user;
       return (
         <Tr key={id}>
           <Td>{id}</Td>
-          <Td>{name}</Td>
-          <Td>{desc}</Td>
-          <Td>{formatNumber(price, '$')}</Td>
-          <Td>{productInventory.quantity}</Td>
+          <Td>{username}</Td>
+          <Td>{firstName}</Td>
+          <Td>{lastName}</Td>
+          <Td>{email}</Td>
           <Td>
             <Button
               colorScheme="blue"
               onClick={() => {
-                router.push(`/product/${id}`);
+                router.push(`/user/${id}`);
               }}
             >
               View order history
@@ -65,18 +64,18 @@ const ProductList: FC = () => {
           <Thead>
             <Tr>
               <Th>Id</Th>
-              <Th>Title</Th>
-              <Th>Description</Th>
-              <Th>Price</Th>
-              <Th>Inventory quantity</Th>
+              <Th>Username</Th>
+              <Th>First name</Th>
+              <Th>Last name</Th>
+              <Th>Email</Th>
               <Th>Actions</Th>
             </Tr>
           </Thead>
-          <Tbody>{productsList}</Tbody>
+          <Tbody>{usersList}</Tbody>
         </Table>
       </TableContainer>
     </Box>
   );
 };
 
-export default ProductList;
+export default UsersList;
