@@ -4,6 +4,7 @@ import { getProduct } from './product.service';
 import Order from '../database/models/order.model';
 import OrderItem from '../database/models/order-item';
 import { IOrderItemCreate } from '../interfaces/order-item.interface';
+import { Op } from 'sequelize';
 
 const placeOrder = async (cartId): Promise<Order> => {
   try {
@@ -70,4 +71,27 @@ const getOrderById = async (id: number): Promise<Order> => {
   });
 };
 
-export { placeOrder, getOrderById };
+const getOrderHistoryByProductId = async (id: number): Promise<Order[] | any> => {
+  const orderIds = [];
+
+  const orderItems = await OrderItem.findAll({
+    where: {
+      productId: id,
+    },
+  });
+
+  for (const item of orderItems) {
+    orderIds.push(item.orderId);
+  }
+
+  const orders = Order.findAll({
+    where: {
+      id: { [Op.in]: orderIds },
+    },
+    include: [OrderItem],
+  });
+
+  return orders;
+};
+
+export { placeOrder, getOrderById, getOrderHistoryByProductId };
