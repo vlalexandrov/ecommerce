@@ -1,8 +1,8 @@
 import React from 'react';
 import { NextPage } from 'next';
-import ProductOrderHistory from '../../components/product-order-history';
 import Layout from '../../components/layout';
 import { useRouter } from 'next/router';
+import UserOrderHistory from '../../components/user-order-history';
 
 const UserPage: NextPage = () => {
   const router = useRouter();
@@ -12,7 +12,7 @@ const UserPage: NextPage = () => {
 
   return (
     <Layout>
-      <ProductOrderHistory productId={id} />
+      <UserOrderHistory userId={id} />
     </Layout>
   );
 };
