@@ -1,12 +1,13 @@
 import React from 'react';
 import { NextPage } from 'next';
-import { Center } from '@chakra-ui/react';
+import Layout from '../components/layout';
+import ProductList from '../components/product-list';
 
 const IndexPage: NextPage = () => {
   return (
-    <Center h="100vh" color="white">
-      hello world!
-    </Center>
+    <Layout>
+      <ProductList />
+    </Layout>
   );
 };
 
