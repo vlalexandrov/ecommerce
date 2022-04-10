@@ -1,4 +1,5 @@
 import express from 'express';
+import cors from 'cors';
 import bodyParser from 'body-parser';
 import db from './database';
 import {
@@ -27,6 +28,7 @@ class Server {
 
     this.app.use(bodyParser.urlencoded({ extended: true }));
     this.app.use(bodyParser.json({ limit: '1mb' }));
+    this.app.use(cors());
   }
 
   private initRoutes(): void {
