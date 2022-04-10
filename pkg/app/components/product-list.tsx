@@ -1,10 +1,23 @@
 import React, { FC, useEffect, useState } from 'react';
-import { Box, Heading, Table, Thead, Tbody, Tr, Th, Td, TableContainer } from '@chakra-ui/react';
+import {
+  Box,
+  Heading,
+  Table,
+  Thead,
+  Tbody,
+  Tr,
+  Th,
+  Td,
+  TableContainer,
+  Button,
+} from '@chakra-ui/react';
 import { fetchAPI } from '../lib/api';
 import { IProduct } from '../interfaces/product';
 import { formatNumber } from '../utils/formatNumber';
+import { useRouter } from 'next/router';
 
 const ProductList: FC = () => {
+  const router = useRouter();
   const [products, setProducts] = useState<IProduct[] | null>(null);
 
   useEffect(() => {
@@ -28,6 +41,16 @@ const ProductList: FC = () => {
           <Td>{desc}</Td>
           <Td>{formatNumber(price, '$')}</Td>
           <Td>{productInventory.quantity}</Td>
+          <Td>
+            <Button
+              colorScheme="blue"
+              onClick={() => {
+                router.push(`/product/${id}`);
+              }}
+            >
+              View order history
+            </Button>
+          </Td>
         </Tr>
       );
     });
@@ -46,6 +69,7 @@ const ProductList: FC = () => {
               <Th>Description</Th>
               <Th>Price</Th>
               <Th>Inventory quantity</Th>
+              <Th>Actions</Th>
             </Tr>
           </Thead>
           <Tbody>{productsList}</Tbody>
