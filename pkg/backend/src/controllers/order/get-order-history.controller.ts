@@ -1,6 +1,7 @@
 import { Request, Response } from 'express';
 import { sendErrorResponse, sendSuccessResponse } from '../../services/response.service';
 import { getOrderHistoryByProductId } from '../../services/order.service';
+import orderModelToDtoMapper from '../../mappers/orders/order-model-to-dto.mapper';
 
 async function getOrderHistoryController(req: Request, res: Response): Promise<void> {
   const productId = parseInt(req.params.productId);
@@ -12,7 +13,13 @@ async function getOrderHistoryController(req: Request, res: Response): Promise<v
 
   try {
     const orderHistory = await getOrderHistoryByProductId(productId);
-    sendSuccessResponse(res, orderHistory, 201);
+    const ordersFormatted = [];
+
+    for (const order of orderHistory) {
+      ordersFormatted.push(await orderModelToDtoMapper(order));
+    }
+
+    sendSuccessResponse(res, ordersFormatted, 201);
   } catch (e) {
     sendErrorResponse(res, e.message);
   }

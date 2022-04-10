@@ -71,7 +71,7 @@ const getOrderById = async (id: number): Promise<Order> => {
   });
 };
 
-const getOrderHistoryByProductId = async (id: number): Promise<Order[] | any> => {
+const getOrderHistoryByProductId = async (id: number): Promise<Order[]> => {
   const orderIds = [];
 
   const orderItems = await OrderItem.findAll({
@@ -84,14 +84,12 @@ const getOrderHistoryByProductId = async (id: number): Promise<Order[] | any> =>
     orderIds.push(item.orderId);
   }
 
-  const orders = Order.findAll({
+  return await Order.findAll({
     where: {
       id: { [Op.in]: orderIds },
     },
     include: [OrderItem],
   });
-
-  return orders;
 };
 
 export { placeOrder, getOrderById, getOrderHistoryByProductId };
